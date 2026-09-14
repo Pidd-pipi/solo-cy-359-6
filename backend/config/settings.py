@@ -20,6 +20,9 @@ ROOT_URLCONF = "config.urls"
 WSGI_APPLICATION = "config.wsgi.application"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+TIME_ZONE = "Asia/Shanghai"
+USE_TZ = True
+
 if os.getenv("DB_HOST"):
     DATABASES = {
         "default": {
@@ -36,6 +39,11 @@ else:
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
             "NAME": BASE_DIR / "db.sqlite3",
+            # 文件型测试库：内存库会让每个线程各连一份独立数据库，
+            # 并发打卡测试需要所有线程共享同一个库才能验证唯一约束兜底。
+            "TEST": {"NAME": BASE_DIR / "test_db.sqlite3"},
+            # 写锁等待时间，避免并发测试因短暂锁竞争误报。
+            "OPTIONS": {"timeout": 20},
         }
     }
 

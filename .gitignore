@@ -8,6 +8,8 @@ dist/
 frontend/dist/
 backend/__pycache__/
 backend/.venv/
+backend/db.sqlite3
+backend/test_db.sqlite3
 backend/**/*.pyc
 coverage/
 .pytest_cache/
